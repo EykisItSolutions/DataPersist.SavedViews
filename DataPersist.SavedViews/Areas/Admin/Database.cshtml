@@ -1,0 +1,42 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Database
+@{
+    ViewBag.Title = "Database";
+}
+
+<div class="page-box d-flex">
+    <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp;
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/database">Database</a>
+    </div>
+    <div class="ml-25 mt-5 mb-10 fst-italic">
+        -- Maintain database rollups and search indexing
+    </div>
+</div>
+
+<div class="pt-10 pl-30">
+    <p>
+        Press the Rollup button to perform <i>rollup</i> calculations.<br />
+        Press the Reindex button to perform a complete text search re-indexing (in Lucene).<br />
+    </p>
+    <div class="font-13 fst-italic">Note: usually these processes are started as scheduled jobs.</div>
+    
+    <div class="pt-20 pb-150">
+
+        <div class="pt-20">
+            <form method="post" asp-antiforgery="true" action="/admin/database/rollup">
+                <button type="submit" class="btn btn-sam btn-outline-dark width-100">Rollup </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Perform Rollup Calculations
+            </form>
+        </div>
+
+        <div class="pt-20">
+            <form method="post" asp-antiforgery="true" action="/admin/database/text-search">
+                <button type="submit" class="btn btn-sm btn-outline-dark width-100">Reindex </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Re-index Text Search (Lucene)
+            </form>
+        </div>
+
+    </div>
+
+</div>

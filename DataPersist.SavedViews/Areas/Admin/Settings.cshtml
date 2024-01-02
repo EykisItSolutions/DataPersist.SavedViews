@@ -1,0 +1,66 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Settings
+@{
+    ViewBag.Title = "Settings";
+}
+
+<div class="page-box d-flex">
+    <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/settings">Settings</a>
+    </div>
+    <div class="ml-40 mt-5 mb-10 fst-italic">
+        -- System configuration and settings
+    </div>
+</div>
+
+<form method="post" asp-antiforgery="true">
+
+    <table class="table table-list table-md mt-30">
+        <tr>
+            <th class="border-0 width-30"></th>
+            <th class="border-0 width-160">Name</th>
+            <th class="border-0 width-180">Value</th>
+            <th class="border-0">Description</th>
+            <th class="border-0 width-130">Last Changed</th>
+        </tr>
+
+        @for (int i = 0; i < Model!._Settings.Count; i++)
+        {
+            <tr>
+                <input type="hidden" asp-for="_Settings[i].Id">
+
+                <td class="border-0 pt-14 pl-10">@(i + 1)</td>
+
+                <td class="border-0">
+                    <input type="text" asp-for="_Settings[i].Name" class="form-control width-160">
+                    <span asp-validation-for="_Settings[i].Name"></span>
+                </td>
+
+                <td class="border-0">
+                    <input type="text" asp-for="_Settings[i].Value" class="form-control width-160">
+                    <span asp-validation-for="_Settings[i].Value"></span>
+                </td>
+
+                <td style="border:0;">
+                    <input typeof="text" asp-for="_Settings[i].Description" class="form-control">
+                    <span asp-validation-for="_Settings[i].Description"></span>
+                </td>
+                <td class="border-0 xpt-14">@Model._Settings[i].LastChangeDate</td>
+            </tr>
+        }
+    </table>
+
+    <br />
+    <hr />
+
+    <div class="button-bar mt-25">
+        <button class="btn btn-dark btn-sm" type="submit">Save</button>&nbsp;
+        <a class="btn btn-light btn-sm" href="/admin">Cancel</a>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />

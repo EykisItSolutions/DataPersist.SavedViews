@@ -1,0 +1,139 @@
+﻿@model DataPersist.SavedViews.Areas.Views.Edit
+@{
+    ViewBag.Title = "Saved View";
+}
+
+
+<form method="post" asp-antiforgery="true">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="What" />
+    <input type="hidden" asp-for="Referer" />
+
+    <div class="page-box">
+
+        <div class="d-flex">
+            <div class="page-box-icon"><a href="javascript:void(0)"><i class="icon-globe"></i></a> Saved View</div>
+        </div>
+
+        <div class="fw-bold p-5 mt-40 mb-20">
+            Step 1: &nbsp;Specify View Name
+        </div>
+        <div class="d-flex">
+
+            <div class="ml-70 width-110 pt-10">View Name&nbsp;<span class="required">*</span></div>
+            <div>
+                <input type="text" asp-for="Name" class="form-control width-300" />
+                <span asp-validation-for="Name"></span>
+            </div>
+
+        </div>
+
+        <div class="fw-bold p-5 mt-60 mb-20">
+            Step 2: &nbsp;Specify Filter Conditions
+        </div>
+
+
+        <table class="">
+            <tr>
+                <td class="width-60">&nbsp;</td>
+                <td>Column</td>
+                <td>Operator</td>
+                <td>Value</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            @for (int i = 0; i < 5; i++)
+            {
+                <tr>
+                    <input type="hidden" asp-for="Filters[i].Number">
+
+                    <td class="text-end pr-15">@Model!.Filters[i]!.Number</td>
+
+                    <td><select asp-for="Filters[i].Column" asp-items='@Lookup.ColumnItems("Student")' class="form-select width-280"></select></td>
+                    <td><select asp-for="Filters[i].Operator" asp-items='@Lookup.OperatorItems' class="form-select width-160"></select></td>
+                    <td><input type="text" asp-for="Filters[i].Value" value="@Model.Filters[i].Value" class="form-control width-220"></td>
+                    <td><div class="pl-15 and">@(Model.Filters[i].Number == 5 ? "" : "AND")</div></td>
+                </tr>
+            }
+        </table>
+
+        <div class="d-flex ml-60 mt-40">
+            <div class="width-90 pt-7">Filter Logic</div>
+            <div class="width-170">
+                <input type="text" asp-for="FilterLogic" class="form-control" placeholder="Optional" />
+                <span asp-validation-for="FilterLogic"></span>
+            </div>
+            <div class="pt-7 pl-10">e.g. 1 AND (2 OR 3)</div>
+
+        </div>
+
+        @*You could activate sorting in a different environment*@
+
+        @*<div class="fw-bold p-5 mt-60 mb-20">
+            Step 3: &nbsp;Specify Sort Order
+        </div>
+
+        <table class="xwidth-450">
+            <tr>
+                <td class="width-60">&nbsp;</td>
+                <td xclass="width-170">Column</td>
+                <td xclass="width-140">Direction</td>
+                <td class="width-80"></td>
+            </tr>
+
+            @for (int i = 0; i < 2; i++)
+            {
+                <tr>
+                    <input type="hidden" asp-for="Sorts[i].Number">
+                    <td class="text-end pr-15">@Model.Sorts[i].Number</td>
+                    <td><select asp-for="Sorts[i].Column" asp-items='@Lookup.ColumnItems("Student")' class="form-select width-280"></select></td>
+                    <td><select asp-for="Sorts[i].Direction" asp-items='@Lookup.DirectionItems' class="form-select width-150"></select></td>
+                    <td><div class="pl-15 ">@(Model.Sorts[i].Number == 2 ? "" : "AND")</div></td>
+
+                </tr>
+            }
+        </table>*@
+
+        <br />
+        <br />
+    </div>
+
+
+    <div class="bg-light p-10 pl-60">
+        <button class="btn btn-sm btn-light" type="submit">Save</button>&nbsp;
+        
+        @if (Model!.Id > 0)
+        {
+            <a class="btn btn-sm btn-light js-confirm" href="/views/delete" data-return-url="/students" data-id="@Model.Id" data-word="Delete" data-item="View" related-count="0" related-message=''>Delete</a>
+        }
+        <a class="btn btn-sm btn-light" href="@Model.Referer">Cancel</a>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />
+<br />
+@section Scripts
+{
+<script>
+    $(function () {
+
+        $("#FilterLogic").on('input', function () {
+            
+            if ($(this).val()) {
+                $('.and').hide();
+            } else {
+                $('.and').show();
+            }
+
+        });
+
+        if ($("#FilterLogic").val()) {
+            $('.and').hide();
+        }
+    });
+</script>
+}

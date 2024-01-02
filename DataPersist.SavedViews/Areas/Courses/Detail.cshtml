@@ -1,0 +1,93 @@
+﻿@model DataPersist.SavedViews.Areas.Courses.Detail
+@{
+    ViewBag.Title = "Course Detail";
+}
+
+<div class="page-box d-flex">
+    <div class="">
+        <div class="page-box-icon"><a href="@Model!.Referer"><i class="page-icon icon-book-open"></i></a> Course</div>
+        <div class="page-box-name">@Model.CourseNumber</div>
+    </div>
+    <div class=" d-flex">
+        <div class=" page-box-data-first">Title<br />@Model.Title</div>
+        <div class=" page-box-data">Department<br />@Model.Department</div>
+        <div class=" page-box-data">Instructor<br />@Model.Instructor</div>
+        
+        <div class=" page-box-data-last"># Classes<br />@Model.TotalClasses</div>
+    </div>
+    <div class="ms-auto">
+        <div class="page-box-buttons">
+            <a class="btn btn-sm btn-light js-edit" href="/courses/edit/@Model.Id">Edit</a>&nbsp;&nbsp;
+            <a class="btn btn-sm btn-light js-confirm" href="/courses/delete" data-return-url="/courses" data-id="@Model.Id" data-word="Delete" related-count="@Model.TotalClasses" related-message='Scheduled courses<br />cannot be deleted.'>Delete</a>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
+    <ul class="nav nav-tabs nav-tabs-related">
+        <li class='nav-item'><a class='nav-link @(Model.Tab == "details" ? "active" : "")' data-bs-toggle="tab" href="#details">Details</a></li>
+        <li class='nav-item position-relative'><a class='nav-link @(Model.Tab == "classes" ? "active" : "")' data-bs-toggle="tab" href="#classes">Classes</a><div class="position-absolute" style="top:6px; right:-7px;"><partial name="_Pattern" model='new string("Related List")' /></div></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+
+    <div class='tab-pane @(Model.Tab == "details" ? "active" : "")' id="details">
+
+        <div class="row tab-pane-row">
+
+            <div class="col-12 col-md-6">
+              @*  <outputField value="CourseNumber"></outputField>*@
+                <outputField value="Title" pattern="Record Name"></outputField>
+                <outputField value="Description"></outputField>
+               
+            </div>
+
+            <div class="col-12 col-md-6">
+                <outputField value="Department" pattern="Lookup"></outputField>
+                <outputField value="Instructor" pattern="Denormalized<br>Foreign Key"></outputField>
+                <outputField value="Fee"></outputField>
+                <outputField value="TotalClasses" label="# Classes" pattern="Rollup"></outputField>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tab-pane @(Model.Tab == "classes" ? "active" : "")" id="classes">
+
+        <div class="d-flex">
+            <div class=" tab-pane-heading">@(Model.TotalClasses.Pluralize("Scheduled Class", "Scheduled Classes"))</div>
+            <div class=" tab-pane-viewall">
+                <a href="/classes?CourseId=@(Model.Id)&AdvancedFilter=True">
+                    @(Model.TotalClasses == 0 ? "" : "View List")
+                </a>
+            </div>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-light" href="/classes/edit?courseid=@Model.Id">New Class</a>&nbsp;
+            </div>
+        </div>
+
+        @if (@Model.TotalClasses == 0)
+        {
+            <div class="no-relateds">
+                There are no classes planned for this course
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var clas in Model.Classes)
+                {
+                    @await Html.PartialAsync("_Class", clas)
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+
+

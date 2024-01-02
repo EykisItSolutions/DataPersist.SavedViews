@@ -1,0 +1,68 @@
+﻿@model DataPersist.SavedViews.Areas.Students.Edit
+@{
+    var title = Model!.Id == 0 ? "New student" : "Edit student";
+    ViewBag.Title = title;
+}
+
+<form method="post" asp-antiforgery="true">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Referer" />
+
+    <div class="page-box">
+        <div class="page-box-icon"><a href="@Model.Referer"><i class="page-icon icon-people"></i></a> Student</div>
+        <div class="page-box-name">@Model.FullName 
+            @if(Model.Id > 0)
+            {
+               <partial name="_Pattern" model='new string("Record Name")' />
+            }
+        </div>
+    </div>
+
+    <div class="tabs">
+        <ul class="nav nav-tabs nav-tabs-related">
+            <li class='nav-item'><a class='nav-link active' href="javascript:void(0)">@title</a></li>
+        </ul>
+    </div>
+
+    <div class="edit-pane">
+        <div class="row edit-pane-row">
+
+            <div class="col-12 col-md-6">
+                <inputTextBox value="FirstName" label="First Name" pattern="Record Name"></inputTextBox>
+                <inputTextBox value="LastName" label="last Name" pattern="Record Name"></inputTextBox>
+                <inputTextBox value="Email"></inputTextBox>
+                <inputDateBox value="DateOfBirth" label="Date of Birth"></inputDateBox>
+                <inputDropDown value="Gender" items="Lookup.GenderItems" pattern="Check Constraint"></inputDropDown>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <inputTextBox value="Alias" pattern="Alias"></inputTextBox>
+                <inputTextBox value="City"></inputTextBox>
+                <inputDropDown value="CountryId" label="Country" items="Lookup.CountryItems" pattern="Lookup"></inputDropDown>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <input type="submit" class="btn btn-sm btn-dark" value='Save' />&nbsp;&nbsp;
+        <a class="btn btn-sm btn-light" href="@Model.Referer">Cancel</a>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+

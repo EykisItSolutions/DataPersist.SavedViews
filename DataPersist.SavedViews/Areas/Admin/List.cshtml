@@ -1,0 +1,96 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.List
+@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="page-box d-flex">
+    <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a>
+    </div>
+    <div class="ml-45 mt-5 mb-10 fst-italic">
+        -- A private admin area for app support and maintenance
+    </div>
+</div>
+
+<div class="row pt-10">
+
+    <div class="col-sm-3">
+        <div class="pl-5 py-15">Table Statistics &nbsp;<partial name="_Pattern" model='new string("Row Count")' /></div>
+
+        <table class="table table-list table-hover table-md">
+            <tr class="bg-light" style="border-bottom:2px solid firebrick;">
+                <th >Table</th>
+                <th class="text-center">#Rows</th>
+                <th class="text-center">KB</th>
+            </tr>
+            @foreach (var table in Model!.Tables)
+            {
+                <tr>
+                    <td>@table.Table</td>
+                    <td class="text-center">@table.Rows</td>
+                    <td class="text-center">@table.KB</td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+    <div class="col-sm-9 pl-80 pt-50">
+
+        <table class="table table-list table-hover table-md mt-2">
+            <tr class="bg-light" style="border-bottom:2px solid firebrick;">
+                <th>Support and Maintenance</th>
+            </tr>
+        </table>
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/adhoc">Ad-hoc </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Issue ad-hoc SQL queries
+        </div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/settings">Settings </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- System configuration and settings &nbsp;<partial name="_Pattern" model='new string("Name-Value")' />
+        </div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/database">Database </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Maintain database rollups and search indexing &nbsp;<partial name="_Pattern" model='new string("Rollups, Search")' />
+        </div>
+
+        <div class="pt-40">Data Changes</div>
+
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/histories">History </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- View Record History: Students, Classes, Enrollments &nbsp;<partial name="_Pattern" model='new string("History")' />
+        </div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/datalogs">Data Logs </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Manage data changes: Courses, Instructors &nbsp;<partial name="_Pattern" model='new string("Data Log")' />
+        </div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/recyclebin">Recycle Bin </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Recycle bin: Courses, Instructors &nbsp;<partial name="_Pattern" model='new string("Soft Delete")' />
+        </div>
+
+        <div class="pt-40">Site Activity</div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/activity">Activity </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Manage User Activity &nbsp;<partial name="_Pattern" model='new string("Activity Logging")' />
+        </div>
+
+        <div class="pt-20">
+            <a class="btn btn-sm btn-outline-dark width-100" href="/admin/errors">Errors </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- Manage Site Errors &nbsp;<partial name="_Pattern" model='new string("Error Logging")' />
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+

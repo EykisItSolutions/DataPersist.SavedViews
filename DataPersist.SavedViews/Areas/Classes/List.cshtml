@@ -1,0 +1,147 @@
+﻿@model DataPersist.SavedViews.Areas.Classes.List
+@{
+    ViewBag.Title = "Classes";
+}
+
+<form>
+
+    <input asp-for="Page" type="hidden" />
+    <input asp-for="Sort" type="hidden" />
+    <input asp-for="AdvancedFilter" type="hidden" />
+
+    <div class="page-box">
+
+        <div class="d-flex">
+            <div class="page-box-icon"><a href="/classes"><i class="page-icon icon-calendar"></i></a> Classes</div>
+            <div class="ms-auto page-box-new-button-top">
+                <a class="btn btn-sm btn-light" href="/classes/edit"> New </a>
+            </div>
+            <div class="btn-group filter-buttons" data-bs-toggle="buttons">
+                <button type="button" class='standard-toggle btn btn-sm btn-light @(Model!.AdvancedFilter ? "" : "active" )' title='Standard Filter'><img src="/img/list.svg" width="18" /></button>
+                <button type="button" class='advanced-toggle btn btn-sm btn-light @(Model!.AdvancedFilter ? "active" : "" )' title='Advanced Filter'><img src="/img/filter.svg" width="18"  /></button>
+            </div>
+        </div>
+
+        <div id="standard-filter" style='display:@(Model.AdvancedFilter ? "none" : "block")'>
+
+            <div class="d-flex">
+                <div class="page-box-filter">
+                    <select asp-for="Filter" asp-items="Filter.ClassItems" class="form-select width-240" ></select>
+                </div>
+                <div class="pt-20 pl-10"><partial name="_Pattern" model='new string("Filter")' /></div>
+                <div class="page-box-items">@Model.TotalRows &nbsp;Items</div>
+            </div>
+
+        </div>
+
+
+        <div id="advanced-filter" style='display:@(Model.AdvancedFilter ? "block" : "none")'>
+
+            <div class="row mt-17">
+
+                 <div class="col-4">
+                    <div class="row">
+                        <label for="ClassNumber" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Record Name")' />&nbsp; Class #</label>
+                        <div class="col-sm-8">
+                            <input type="text" asp-for="ClassNumber" class="form-control" placeholder="CLS-00000" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-5">
+                    <div class="row">
+                        <label for="StartDate" class="col-sm-4 col-form-label text-end">StartDate</label>
+                        <div class="col-sm-8 ">
+                            <table>
+                                <tr>
+                                    <td style="width:45%"><input asp-for="StartDateFrom" type="text" class="form-control js-date-picker" placeholder='From' /></td>
+                                    <td style="width:10%">&nbsp;&nbsp;-</td>
+                                    <td style="width:45%"><input asp-for="StartDateThru" type="text" class="form-control js-date-picker" placeholder='Thru' /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="page-box-items-advanced">@Model.TotalRows &nbsp;Items</div>
+                </div>
+            </div>
+
+
+            <div class="row mt-10 mb-15">
+                <div class="col-4">
+                    <div class="row">
+                        <label for="CourseId" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Denormalized<br>Foreign Key")' />&nbsp; Title</label>
+                        <div class="col-sm-8">
+                            <select asp-for="CourseId" asp-items="Lookup.CourseItems" class="form-select"></select>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-5">
+                    <div class="row">
+                        <label for="TotalEnrollments" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; # Students</label>
+                        <div class="col-sm-8 ">
+                            <table>
+                                <tr>
+                                    <td style="width:45%"><input asp-for="TotalEnrollmentsFrom" type="text" class="form-control" placeholder='From' /></td>
+                                    <td style="width:10%">&nbsp;&nbsp;-</td>
+                                    <td style="width:45%"><input asp-for="TotalEnrollmentsThru" type="text" class="form-control" placeholder='Thru' /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="pt-5">
+                        <button class="btn btn-dark btn-sm js-filter" type="submit"> Filter </button>&nbsp;
+                        <a href="/classes?AdvancedFilter=True" class="btn btn-light btn-sm"> Reset </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th><partial name="_Pattern" model='new string("Record Name")' />&nbsp; <a sort="ClassNumber">Class #</a></th>
+            <th><partial name="_Pattern" model='new string("Denormalized<br>Foreign Key")' />&nbsp; <a sort="Course">Title</a></th>
+            <th><a sort="StartDate">Start Date</a></th>
+            <th><a sort="EndDate">End Date</a></th>
+            <th><a sort="Location">Location</a></th>
+            <th><a sort="MaxEnrollments">Max Students</a></th>
+            <th><partial name="_Pattern" model='new string("Rollup")' />&nbsp; <a sort="TotalEnrollments"># Students</a></th>
+            <th class="width-120 pl-13"><partial name="_Pattern" model='new string("Data Experience")' />&nbsp; Action </th>
+        </tr>
+
+        @if (Model.Items.Count() == 0)
+        {
+            <tr><td colspan="8" class="no-items">No items to display</td></tr>
+        }
+
+        @foreach (var cls in Model.Items)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/classes/@cls.Id?tab=enrollments">@cls.ClassNumber</a></td>
+                <td><a class="table-list-link" href="/courses/@cls.CourseId">@cls.Course</a></td>
+                <td>@cls.StartDate</td>
+                <td>@cls.EndDate</td>
+                <td>@cls.Location</td>
+                <td>@cls.MaxEnrollments</td>
+                <td><a class="table-list-link" href="/enrollments?ClassId=@(cls.Id)&AdvancedFilter=True">&nbsp;@cls.TotalEnrollments</a></td>
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/classes/edit/@cls.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/classes/delete" data-id="@cls.Id" data-word="Delete" related-count="@cls.TotalEnrollments" related-message='Classes with enrollments<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+                </td>
+
+            </tr>
+        }
+    </table>
+
+    <partial name="_Pager" />
+
+</form>
+
+<div class="height-60"></div>

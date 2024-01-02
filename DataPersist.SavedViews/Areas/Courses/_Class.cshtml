@@ -1,0 +1,36 @@
+﻿@model DataPersist.SavedViews.Areas.Courses._Class
+
+<div class="col-4">
+    <div class="bg-white pt-20 pb-15 my-15">
+        <table class="table table-noline">
+            <tr>
+                <td class="text-end w-40 border-0"><partial name="_Pattern" model='new string("Record Name")' />&nbsp; Class #</td>
+                <td class="border-0"><a href="/classes/@Model!.Id">@Model.ClassNumber</a></td>
+            </tr>
+            <tr>
+                <td class="text-end">Location</td>
+                <td>@Model.Location?.Ellipsify(25)</td>
+            </tr>
+            <tr>
+                <td class="text-end">StartDate</td>
+                <td>@Model.StartDate</td>
+            </tr>
+
+            <tr>
+                <td class="text-end">EndDate</td>
+                <td>@Model.EndDate</td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; Students</td>
+                <td>@Model.TotalEnrollments</td>
+            </tr>
+        </table>
+
+        <div class="text-center ">
+            <a class="" href="/classes/edit/@Model.Id">Edit</a>&nbsp;&nbsp;
+            <a class="js-confirm" href="/classes/delete" data-id="@Model.Id" data-word="Delete" related-count="@Model.TotalEnrollments" related-message='Classes with enrollments<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+        </div>
+    </div>
+
+</div>
+

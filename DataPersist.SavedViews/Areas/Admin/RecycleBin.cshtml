@@ -1,0 +1,89 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.RecycleBin
+@{
+    ViewBag.Title = "Recycle Bin";
+}
+<form>
+
+    <input type="hidden" name="What" value="@Model!.Filter" />
+
+    <div class="page-box">
+        <div>
+            <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp;
+            <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+            <a class="hover-underline" href="/admin/recyclebin">Recycle bin</a>
+        </div>
+
+        <div class="d-flex p-5 pb-10 mt-25">
+
+            <div class="pt-8">Select table</div>
+
+            <div class="pl-20">
+                <select asp-for="Filter" asp-items="Filter.RecycleBinItems" class="form-select  width-130"></select>
+            </div>
+            <div class="pt-6 pl-15">
+                <a data-bs-toggle="tooltip" data-bs-title='Soft Delete pattern' href="javascript:void(0);"><img src="~/img/p.png" /></a>&nbsp;&nbsp;
+            </div>
+            <div class="pt-8 ms-auto pr-10">Note: Courses and Instructors only</div>
+        </div>
+    </div>
+</form>
+
+<form method="post" asp-antiforgery="true">
+
+    <table class="table table-list table-md mt-20">
+        <tr class="bg-light">
+            <th>Table</th>
+            <th>Record Name</th>
+            <th>Deleted Date</th>
+            <th>Deleted By</th>
+            <th class="width-100"></th>
+        </tr>
+
+        @if (!Model!.Items.Any())
+        {
+            <tr><td colspan="5" class="no-records">No records to display</td></tr>
+        }
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.What</td>
+                <td>@item.Name</td>
+                <td>@item.DeletedOnDate</td>
+                <td>@item.DeletedByName</td>
+                <td>
+                    <a class="btn btn-xs btn-light js-confirm" data-id="@item.WhatId" data-word="Undelete" href="/admin/recyclebin/undo/@item.What/@item.WhatId">Undelete</a>
+                </td>
+            </tr>
+
+        }
+    </table>
+
+</form>
+
+<br />
+<br />
+<br />
+
+@section scripts
+{
+<script>
+    $(function () {
+
+        $("#Filter").on('change', function () {
+            $("[name='What']").val($("#Filter").val());
+            $(this).closest('form').submit();
+        })
+
+        $(".undo").on('click', function () {
+
+            if (confirm("Undelete this record?")){
+
+                var form = $(this).closest("form");
+                var url = $(this).data('url');
+                form.attr('action', url).submit();
+            }
+        })
+    });
+</script>
+}

@@ -1,0 +1,85 @@
+﻿@model DataPersist.SavedViews.Areas.Instructors.Detail
+@{
+    ViewBag.Title = "Instructor Detail";
+    var count = Model!.Courses.Count;
+}
+
+<div class="page-box d-flex">
+    <div class="">
+        <div class="page-box-icon"><a href="@Model.Referer"><i class="page-icon icon-briefcase"></i></a> Instructor</div>
+        <div class="page-box-name">@Model.FullName <partial name="_Pattern" model='new string("Record Name")' /></div>
+    </div>
+    <div class=" d-flex">
+        <div class=" page-box-data-first">FullTime<br />@(Model.IsFulltime ? "Yes" : "No")</div>
+        <div class=" page-box-data">Salary<br />@Model.Salary</div>
+        <div class=" page-box-data-last"># Courses<br />@Model.TotalCourses</div>
+    </div>
+    <div class="ms-auto">
+        <div class="page-box-buttons">
+            <a class="btn btn-sm btn-light js-edit" href="/instructors/edit/@Model.Id">Edit</a>&nbsp;&nbsp;
+            <a class="btn btn-sm btn-light js-confirm" href="/instructors/delete" data-return-url="/instructors" data-id="@Model.Id" data-word="Delete" related-count="@Model.TotalCourses" related-message='Instructors with courses<br />cannot be deleted.'>Delete</a>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
+    <ul class="nav nav-tabs nav-tabs-related">
+        <li class='nav-item'><a class='nav-link @(Model.Tab == "details" ? "active" : "")' data-bs-toggle="tab" href="#details">Details</a></li>
+        <li class='nav-item'><a class='nav-link @(Model.Tab == "courses" ? "active" : "")' data-bs-toggle="tab" href="#courses">Courses</a></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+
+    <div class='tab-pane @(Model.Tab == "details" ? "active" : "")' id="details">
+        <div class="tab-pane-row row">
+
+            <div class="col-12 col-md-6">
+                <outputField value="FirstName" label="First Name" pattern="Record Name"></outputField>
+                <outputField value="LastName" label="Last Name" pattern="Record Name"></outputField>
+                <outputField value="Email"></outputField>
+                <outputField value="Alias" pattern="Alias"></outputField>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <outputField value="HireDate" label="Hire Date"></outputField>
+                <outputCheckBox value="IsFulltime" label="Fulltime" pattern="Bit Enumeration"></outputCheckBox>
+                <outputField value="Salary"></outputField>
+                <outputField value="TotalCourses" label="# Courses" pattern="Rollup"></outputField>
+            </div>
+
+        </div>
+    </div>
+
+    <div class='tab-pane @(Model.Tab == "courses" ? "active" : "")' id="courses">
+
+        <div class="d-flex">
+            <div class=" tab-pane-heading">@Model.Courses.Count.Pluralize("Course", "Courses") </div>
+            <div class=" tab-pane-viewall">
+                <a href="/courses?InstructorId=@(Model.Id)&AdvancedFilter=True">
+                    @(count == 0 ? "" : count >= 9 ? "View All" : "View List")
+                </a>
+            </div>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-light" href="/courses/edit?instructorId=@Model.Id">New Course</a>&nbsp;
+            </div>
+        </div>
+
+        @if (count == 0)
+        {
+            <div class="no-relateds">
+                Instructor does not teach any courses
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var course in Model.Courses.Take(9))
+                {
+                    @await Html.PartialAsync("_Course", course)
+                }
+            </div>
+        }
+    </div>
+
+</div>

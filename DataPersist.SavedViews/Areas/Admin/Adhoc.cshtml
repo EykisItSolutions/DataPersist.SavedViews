@@ -1,0 +1,159 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Adhoc
+@{
+    ViewBag.Title = "Ad Hoc SQL";
+}
+
+<div class="page-box d-flex">
+    <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/adhoc">Adhoc</a>
+    </div>
+    <div class="ml-25 mt-5 mb-10 fst-italic">
+        -- Issue SQL queries to a live database
+    </div>
+</div>
+
+
+<div class="row mt-25">
+
+    <div class="col-3 bg-light">
+
+        <div class="font-20 pt-20 fw-bold">Tables</div>
+        <div class="p-10 pl-0 font-13 fst-italic">Click on table to view columns</div>
+
+        <div class="pt-10 height-240 overflow-auto">
+            @foreach (var table in Lookup.Schema)
+            {
+                <span>-</span> <a class="font-weight-semibold" id="table@(table.Key)" href="javascript:void(0)">@table.Key</a>
+
+                <br />
+                <div id="columns@(table.Key)" class="column-list pl-10" style="display:none;">
+                    @foreach (var column in Lookup.Schema[table.Key])
+                    {
+                        @: - @column.Key
+                        <span>(@column.Value.DataType)</span>
+
+                        <br />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="font-20 pt-20 fw-bold">SQL</div>
+        <div class="py-8 pl-0 font-13 fst-italic">Enter your SQL below, for example: SELECT * FROM Country. The results will display below.</div>
+
+        <form method="post" asp-antiforgery="true">
+
+            <textarea name="sql" id="sql" rows="9" style="width:98%; resize:none;font-size:15px;font-family:Verdana,Arial;">@Model!.Sql</textarea>
+            <br />
+
+            <input type="submit" class="btn btn-sm btn-dark" value="Submit" />&nbsp;&nbsp;
+            <input id="clear" type="button" class="btn btn-sm btn-light" value="Reset" />
+        </form>
+
+    </div>
+</div>
+
+
+<hr />
+
+<div class="container-fluid" id="results">
+
+    @if (Model!.Exception != null)
+    {
+        <div class="pl-10"><h4>Error</h4></div>
+        <div class="p-10">@Model.Exception</div>
+    }
+    else if (Model.Results.Any())
+    {
+        bool first = true;
+
+        <br />
+        <table class="table table-list table-md">
+            @foreach (var result in Model.Results)
+            {
+                if (first)
+                {
+                    <tr class="bg-light">
+                        @foreach (var item in result)
+                        {
+                            <th>@(string.IsNullOrEmpty(item) ? "No Name" : item)</th>
+                        }
+                    </tr>
+                    first = false;
+                }
+                else
+                {
+                    <tr>
+                        @foreach (var item in result)
+                        {
+                            <td>@item</td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+
+    }
+    else
+    {
+        <div class="height-400 pl-20">
+            @if (string.IsNullOrEmpty(Model.Sql))
+            {
+                @:Results will be displayed here
+            }
+            else
+            {
+                @: no records were found
+            }
+        </div>
+    }
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@section Scripts {
+
+<script>
+
+        DataPersist.namespace("Local").Page = (function () {
+
+        var start = function () {
+
+            // clear button
+
+            $("#clear").on("click", function () {
+
+                $("#sql").val("");
+                $("#description").html("Enter your sql below");
+
+                $("#results").html("<div style='color:#aaa;'>no results to display</div>");
+            });
+
+            // display column names when clicked on table name
+
+            $("a[id^='table']").on("click", function () {
+                var id = "#" + $(this).attr("id").replace("table", "columns");
+                $(id).slideToggle(200);
+            });
+        };
+
+        return { start: start };
+
+    })();
+
+
+    $(function () {
+            DataPersist.Local.Page.start();
+    });
+</script>
+}
+
+

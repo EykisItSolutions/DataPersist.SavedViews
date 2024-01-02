@@ -1,0 +1,17 @@
+﻿@if (TempData["Success"] != null)
+{
+    <span id="alert-success" class="alert alert-success alert-absolute">
+        @TempData["Success"]
+    </span>
+
+    TempData["Success"] = null;      // prevents redisplay following a non-redirect
+}
+
+@if (TempData["Failure"] != null)
+{
+    <span id="alert-failure" class="alert alert-failure alert-absolute">
+        @TempData["Failure"]
+    </span>
+
+    TempData["Failure"] = null;      // prevents redisplay following a non-redirect
+}

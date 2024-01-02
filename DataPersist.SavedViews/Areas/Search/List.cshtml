@@ -1,0 +1,309 @@
+﻿@model DataPersist.SavedViews.Areas.Search.List
+@{
+    ViewBag.Title = "Search";
+}
+
+<div class="page-box">
+    <div class="d-flex">
+        <div class="page-box-icon"><a href="/search"><i class="page-icon icon-magnifier"></i></a> Search </div>
+    </div>
+    <form action="/search">
+
+        <input type="hidden" id="search-type" name="SearchType" value='@(Model!.SearchType)' />
+
+        <div class="mt-20 mb-5 d-flex justify-content-center">
+
+            <div class="input-group pt-3" style="width:450px;">
+                <button type="button" class="btn btn-light btn-search dropdown-toggle " data-bs-toggle="dropdown">@(Model.SearchType) <span class="caret"></span></button>
+                <div class="dropdown-menu">
+                    <a class='dropdown-item js-dropdown-item' data-type="All" href="#">All</a>
+                    <a class='dropdown-item js-dropdown-item' data-type="Students" href="#">Students</a>
+                    <a class='dropdown-item js-dropdown-item' data-type="Enrollments" href="#">Enrollments</a>
+                    <a class='dropdown-item js-dropdown-item' data-type="Classes" href="#">Classes</a>
+                    <a class='dropdown-item js-dropdown-item' data-type="Courses" href="#">Courses</a>
+                    <a class='dropdown-item js-dropdown-item' data-type="Instructors" href="#">Instructors</a>
+                </div>
+
+                <input asp-for="q" placeholder='Search...' class="form-control" type="text" />
+                <button class="btn btn-search-submit" type="submit"><i class="icon-magnifier"></i></button>
+            </div>
+            <div class="pt-10 pl-14"><partial name="_Pattern" model='new string("Search")' /></div>
+
+            @if (!string.IsNullOrEmpty(Model.q))
+            {
+                <div class="pl-13 pt-10">
+                    <a href="/search">Clear</a>
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+@if (string.IsNullOrEmpty(Model!.q))
+{
+    <div class="p-70 text-center">
+        Enter a search term above...
+    </div>
+}
+else if (!Model.Students.Any() && !Model.Enrollments.Any() && !Model.Instructors.Any() &&
+         !Model.Courses.Any() && !Model.Classes.Any())
+{
+    <div class="p-70 text-center fw-bold">
+        No results were found..
+    </div>
+}
+
+@if (Model.Students.Any())
+{
+
+    <div class="search-heading">
+        Students
+        @if (Model.SearchType == "All" && @Model.TotalStudents > 5)
+        {
+            <div class="search-full-list">
+                <a class="no-underline" href="/search?SearchType=Students&q=@(Model.q)">View all @Model.TotalStudents students</a>
+            </div>
+        }
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Birth Date</th>
+            <th># Enrollments</th>
+            <th>Alias</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/students/@student.Id?tab=enrollments">@student.FullName</a></td>
+                <td>@student.Email</td>
+                <td>@student.City</td>
+                <td>@student.Country</td>
+                <td>@student.DateOfBirth</td>
+                <td><a class="table-list-link" href="/enrollments?StudentId=@(student.Id)&AdvancedFilter=True">&nbsp;@student.TotalEnrollments</a></td>
+
+                <td><a class="table-list-link" href="/students/@student.Id">@student.Alias</a></td>
+
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/students/edit/@student.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/students/delete" data-bs-container="body" data-id="@student.Id" data-word="Delete" related-count="@student.TotalEnrollments" related-message='Students with enrollments<br />cannot be deleted.'>Delete</a>&nbsp;
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.Enrollments.Any())
+{
+    <div class="search-heading">
+        Enrollments
+        @if (Model.SearchType == "All" && @Model.TotalEnrollments > 5)
+        {
+            <div class="search-full-list">
+                <a class="no-underline" href="/search?SearchType=Enrollments&q=@(Model.q)">View all @Model.TotalEnrollments enrollments</a>
+            </div>
+        }
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th>Enroll #</th>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Enroll Date</th>
+            <th>Fee</th>
+            <th>Paid</th>
+            <th>Status</th>
+            <th>Avg Grade</th>
+            <th># Quizzes</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        @foreach (var enrollment in Model.Enrollments)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/enrollments/@enrollment.Id">@enrollment.EnrollmentNumber</a></td>
+                <td><a class="table-list-link" href="/students/@enrollment.StudentId">@enrollment.Student!.Ellipsify(25)</a></td>
+                <td><a class="table-list-link" href="/classes/@enrollment.CourseId">@enrollment.Course</a></td>
+                <td>@enrollment.EnrollDate</td>
+                <td>@enrollment.Fee</td>
+                <td>@enrollment.AmountPaid</td>
+                <td><div class="@enrollment.Status.ToLower()">@enrollment.Status</div></td>
+                <td><a class="table-list-link" href="/enrollments/@(enrollment.Id)?tab=quizzes">&nbsp;@enrollment.AvgGrade</a></td>
+                <td><a class="table-list-link" href="/enrollments/@(enrollment.Id)?tab=quizzes">&nbsp;@enrollment.TotalQuizzes</a></td>
+
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/enrollments/edit/@enrollment.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/enrollments/delete" data-id="@enrollment.Id" data-word="Delete" related-count="@enrollment.TotalQuizzes" related-message='Enrollments with quizzes<br />cannot be deleted.'>Delete</a>&nbsp;
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.Instructors.Any())
+{
+     <div class="search-heading">
+        Instructors
+        @if (Model.SearchType == "All" && @Model.TotalInstructors > 5)
+        {
+            <div class="search-full-list">
+                <a class="no-underline" href="/search?SearchType=Instructors&q=@(Model.q)">View all @Model.TotalInstructors instructors</a>
+            </div>
+        }
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Hire Date</th>
+            <th>Full Time</th>
+            <th>Salary</th>
+            <th># Course</th>
+            <th>Alias</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        @foreach (var instructor in Model.Instructors)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/instructors/@instructor.Id?tab=courses">@instructor.FullName</a></td>
+                <td>@instructor.Email</td>
+                <td>@instructor.HireDate</td>
+                <td>
+                    @if (instructor.IsFulltime)
+                    {
+                        <div class="yes">Yes</div>
+                    }
+                    else
+                    {
+                        <div class="no">No</div>
+                    }
+                </td>
+
+                <td>@instructor.Salary</td>
+                <td><a class="table-list-link" href="/courses?InstructorId=@(instructor.Id)&AdvancedFilter=True">&nbsp;@instructor.TotalCourses</a></td>
+                <td><a class="table-list-link" href="/instructors/@instructor.Id">@instructor.Alias</a></td>
+
+
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/instructors/edit/@instructor.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/instructors/delete" data-id="@instructor.Id" data-word="Delete" related-count="@instructor.TotalCourses" related-message='Instructors with courses<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+
+@if (Model.Courses.Any())
+{
+     <div class="search-heading">
+        Courses
+        @if (Model.SearchType == "All" && @Model.TotalCourses > 5)
+        {
+            <div class="search-full-list">
+                <a class="no-underline" href="/search?SearchType=Courses&q=@(Model.q)">View all @Model.TotalCourses courses</a>
+            </div>
+        }
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+
+        <tr>
+            <th>Course #</th>
+            <th>Title</th>
+            <th>Department</th>
+            <th>Instructor</th>
+            <th>Fee</th>
+            <th># Classes</th>
+            <th>&nbsp;</th>
+        </tr>
+
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/courses/@course.Id?tab=classes">@course.CourseNumber</a></td>
+                <td>@course.Title</td>
+                <td>@course.Department</td>
+                <td><a class="table-list-link" href="/instructors/@course.InstructorId">@course.Instructor</a></td>
+
+                <td>@course.Fee</td>
+                <td><a class="table-list-link" href="/classes?CourseId=@(course.Id)&AdvancedFilter=True">&nbsp;@course.TotalClasses</a></td>
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/courses/edit/@course.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/courses/delete" data-id="@course.Id" data-word="Delete" related-count="@course.TotalClasses" related-message='Courses with scheduled classes<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (Model.Classes.Any())
+{
+    <div class="search-heading">
+        Classes
+        @if (Model.SearchType == "All" && @Model.TotalClasses > 5)
+        {
+            <div class="search-full-list">
+                <a class="no-underline" href="/search?SearchType=Classes&q=@(Model.q)">View all @Model.TotalClasses classes</a>
+            </div>
+        }
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th>Class #</th>
+            <th>Title</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Location</th>
+            <th>Max Students</th>
+            <th># Students</th>
+            <th>&nbsp;</th>
+
+        </tr>
+
+        @foreach (var cls in Model.Classes)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/classes/@cls.Id?tab=enrollments">@cls.ClassNumber</a></td>
+                <td><a class="table-list-link" href="/courses/@cls.CourseId">@cls.Course</a></td>
+                <td>@cls.StartDate</td>
+                <td>@cls.EndDate</td>
+                <td>@cls.Location</td>
+                <td>@cls.MaxEnrollments</td>
+                <td><a class="table-list-link" href="/enrollments?ClassId=@(cls.Id)&AdvancedFilter=True">&nbsp;@cls.TotalEnrollments</a></td>
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/classes/edit/@cls.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/classes/delete" data-id="@cls.Id" data-word="Delete" related-count="@cls.TotalEnrollments" related-message='Classes with enrollments<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+                </td>
+
+            </tr>
+        }
+    </table>
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@section Scripts
+{
+<script>
+    $(function () {
+
+    });
+</script>
+}

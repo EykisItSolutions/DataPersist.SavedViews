@@ -1,0 +1,82 @@
+﻿@model DataPersist.SavedViews.Areas.Enrollments.Edit
+@{
+    var title = Model!.Id == 0 ? "New enrollment" : "Edit enrollment";
+    ViewBag.Title = title;
+}
+
+<form method="post" asp-antiforgery="true">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Referer" />
+
+    <div class="page-box">
+        <div class="page-box-icon"><a href="@Model.Referer"><i class="page-icon icon-doc"></i></a> Enrollment</div>
+        <div class="page-box-name">@Model.EnrollmentNumber</div>
+    </div>
+
+    <div class="tabs">
+        <ul class="nav nav-tabs nav-tabs-related">
+            <li class='nav-item'><a class='nav-link active' href="javascript:void(0)">@title</a></li>
+        </ul>
+    </div>
+
+    <div class="edit-pane">
+        <div class="row edit-pane-row ">
+
+            <div class="col-12 col-md-6">
+                <outputSerial value="EnrollmentNumber" label="Enroll #" pattern="Record name pattern"></outputSerial>
+                <inputDropDown value="StudentId" items="Lookup.StudentItems" label="Student" pattern="Lookup pattern"></inputDropDown>
+                <inputDropDown value="ClassId" items="Lookup.ClassItems" label="Class" pattern="Lookup pattern"></inputDropDown>
+                <inputDateBox value="EnrollDate" label="Enroll Date"></inputDateBox>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <inputCurrencyBox value="AmountPaid" label="Paid"></inputCurrencyBox>
+                <inputDropDown value="Status" items="Lookup.StatusItems" pattern="Enumeration pattern"></inputDropDown>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <input type="submit" class="btn btn-sm btn-light" value='Save' />&nbsp;&nbsp;
+        <a class="btn btn-sm btn-light" href="@Model.Referer">Cancel</a>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />
+<br />
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        DataPersist.namespace("Local").Page = (function () {
+
+            var start = function () {
+                // 'form-control' is removed following an error.
+                // this ensures field is always formatted properly
+                $('#StudentId').addClass('form-control');
+            };
+
+            return { start: start };
+
+        })();
+
+        $(function () {
+            DataPersist.Local.Page.start();
+
+        });
+
+    </script>
+}
+
+
+
+
+
+
+

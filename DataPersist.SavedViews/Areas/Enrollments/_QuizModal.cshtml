@@ -1,0 +1,51 @@
+﻿@model DataPersist.SavedViews.Areas.Enrollments.Detail
+
+<div id="modal-quiz" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="/quizzes/edit" asp-antiforgery="true">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="modal-header">
+                    <h4 class="modal-title">New Quiz</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                    <div>
+                        <div class="row">
+                           
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="" class="col-sm-3 col-form-label">Grade</label>
+                                    <div class="col-sm-7">
+                                        <input asp-for="Grade" type="text" class="form-control" style="width:150px;" />
+                                        <span asp-validation-for="Grade" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="" class="col-sm-3 col-form-label">Quiz Date</label>
+                                    <div class="col-sm-7">
+                                        <input asp-for="QuizDate" type="text" class="form-control js-date-picker" style="width:150px;" />
+                                        <span asp-validation-for="QuizDate" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-light">Save</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

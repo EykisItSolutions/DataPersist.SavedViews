@@ -1,0 +1,30 @@
+﻿@model DataPersist.SavedViews.Areas.Instructors._Course
+
+<div class="col-4">
+    <div class="bg-white pt-20 pb-15 my-15">
+        <table class="table table-noline">
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Record Name")' />&nbsp; Title</td>
+                <td><a href="/courses/@Model!.Id">@Model.Title?.Ellipsify(25)</a></td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Lookup")' />&nbsp; Department</td>
+                <td>@Model.Department</td>
+            </tr>
+            <tr>
+                <td class="text-end">Fee</td>
+                <td>@Model.Fee</td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; # Classes</td>
+                <td>@Model.TotalClasses</td>
+            </tr>
+        </table>
+
+        <div class="text-center ">
+            <a class="" href="/courses/edit/@Model.Id">Edit</a>&nbsp;&nbsp;&nbsp;
+            <a class="js-confirm" href="/courses/delete" data-id="@Model.Id" data-word="Delete" related-count="@Model.TotalClasses" related-message='Courses with scheduled classes<br />cannot be deleted.'>Delete</a>
+        </div>
+    </div>
+
+</div>

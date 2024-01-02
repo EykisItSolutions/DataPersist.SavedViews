@@ -1,0 +1,86 @@
+﻿@model DataPersist.SavedViews.Areas.Students.Detail
+@{
+    ViewBag.Title = "Student Detail";
+}
+
+<div class="page-box d-flex">
+    <div class="">
+        <div class="page-box-icon"><a href="@Model!.Referer"><i class="page-icon icon-people"></i></a> Student</div>
+        <div class="page-box-name">@Model.FullName <partial name="_Pattern" model='new string("Record Name")' /></div>
+    </div>
+    <div class="d-flex">
+        <div class="page-box-data-first">Email<br />@Model.Email</div>
+        <div class="page-box-data">Date of Birth<br />@Model.DateOfBirth</div>
+        <div class="page-box-data">From<br />@Model.City, @Model.Country</div>
+        <div class="page-box-data-last"># Enrollments<br />@Model.TotalEnrollments</div>
+    </div>
+    <div class="ms-auto">
+        <div class="page-box-buttons">
+            <a class="btn btn-sm btn-light js-edit" href="/students/edit/@Model.Id">Edit</a>&nbsp;&nbsp;
+            <a class="btn btn-sm btn-light js-confirm" href="/students/delete" data-return-url="/students" data-id="@Model.Id" data-word="Delete" related-count="@Model.TotalEnrollments" related-message='Students with enrollments<br />cannot be deleted.'>Delete</a>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
+    <ul class="nav nav-tabs nav-tabs-related">
+        <li class='nav-item'><a class='nav-link @(Model.Tab == "details" ? "active" : "")' data-bs-toggle="tab" href="#details">Details</a></li>
+        <li class='nav-item position-relative'><a class='nav-link @(Model.Tab == "enrollments" ? "active" : "")' data-bs-toggle="tab" href="#enrollments">Enrollments</a><div class="position-absolute" style="top:6px; right:-7px;"><partial name="_Pattern" model='new string("Related List")' /></div></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+
+    <div class='tab-pane @(Model.Tab == "details" ? "active" : "")' id="details">
+        <div class="tab-pane-row row">
+
+            <div class="col-12 col-md-6">
+                <outputField value="FirstName" label="First Name" pattern="Record Name"></outputField>
+                <outputField value="LastName" label="last Name" pattern="Record Name"></outputField>
+                <outputField value="Email"></outputField>
+                <outputField value="DateOfBirth" label="Date of Birth"></outputField>
+                <outputField value="Gender" pattern="Check Constraint"></outputField>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <outputField value="Alias" pattern="Alias"></outputField>
+                <outputField value="City"></outputField>
+                <outputField value="Country" pattern="Lookup"></outputField>
+                <outputField value="TotalEnrollments" label="# Enrolls"  pattern="Rollup"></outputField>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane @(Model.Tab == "enrollments" ? "active" : "")" id="enrollments">
+
+        <div class="d-flex">
+            <div class="tab-pane-heading">@(Model.TotalEnrollments.Pluralize("Enrollment", "Enrollments"))</div>
+            <div class="tab-pane-viewall">
+                <a href="/enrollments?StudentId=@(Model.Id)&AdvancedFilter=True">
+                   @(Model.TotalEnrollments == 0 ? "" : "View List")
+                </a>
+            </div>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-light" href="/enrollments/edit?studentid=@Model.Id">New Enrollment</a>&nbsp;
+            </div>
+        </div>
+
+        @if (@Model.TotalEnrollments == 0)
+        {
+            <div class="no-relateds">
+                Student is not enrolled in any classes
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var enrollment in Model.Enrollments)
+                {
+                    @await Html.PartialAsync("_Enrollment", enrollment)
+                }
+            </div>
+        }
+    </div>
+
+</div>
+

@@ -1,0 +1,95 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Errors
+@{
+    ViewBag.Title = "Error";
+}
+
+<form method="post" asp-antiforgery="true">
+    <div class="page-box">
+        <div>
+            <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp;
+            <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+            <a class="hover-underline" href="/admin/errors">Errors</a>
+        </div>
+
+        <div class="d-flex p-5 pb-10 mt-25">
+
+            <div class="pt-8 xpl-90">
+                Select
+            </div>
+
+            <div class="pl-20">
+                <select asp-for="Count" asp-items="Filter.ErrorItems" class="form-select  width-180"></select>
+            </div>
+            <div class="pl-10 pt-3 width-100"><button id="delete" type="submit" class="btn btn-sm btn-dark">Submit</button></div>
+
+            <div class="pt-6 pl-20">@Model!.TotalRows Items</div>
+        </div>
+
+    </div>
+</form>
+
+<form>
+    <input asp-for="Page" type="hidden" />
+
+    <table class="table table-list table-md mt-40">
+        <tr class="bg-light">
+            <th>Details</th>
+            <th style="width:140px;">User</th>
+            <th style="width:140px;">Date</th>
+            <th>Message</th>
+            <th>IP</th>
+            <th>URL</th>
+        </tr>
+
+        @if (!Model!.Items.Any())
+        {
+            <tr>
+                <td colspan="6" class="no-records">No records to display</td>
+            </tr>
+        }
+
+        @foreach (var error in Model.Items)
+        {
+            <tr>
+                <td><a class="view btn btn-xs btn-light" data-id="@error.Id" href="javascript:void(0);">View</a></td>
+                <td>@error.User</td>
+                <td>@error.ErrorDate</td>
+                <td>@error.Message.Ellipsify(50)</td>
+                <td>@error.IpAddress</td>
+                <td>@error.Url</td>
+            </tr>
+            <tr id="detail-@(error.Id)" style="display:none;">
+                <td colspan="6">
+                    <strong>Url:</strong> @error.Url<br />
+                    <strong>Referrer:</strong> @error.HttpReferer<br />
+                    <strong>Date Time:</strong> @error.ErrorDate.ToString()<br />
+                    <strong>UserAgent:</strong> @error.UserAgent<br />
+                    <strong>Exception:</strong> @error.Exception<br />
+                </td>
+            </tr>
+        }
+    </table>
+
+    <partial name="_Pager" />
+
+</form>
+<br />
+<br />
+<br />
+
+@section scripts
+{
+<script>
+    $(function () {
+        $(".view").on('click', function () {
+            var id = $(this).data('id');
+            $("#detail-" + id).toggle();
+        });
+
+        $("#delete").on('click', function () {
+            $(this).closest('form').attr("action", "/admin/errors").submit();
+        });
+    });
+</script>
+}
+}

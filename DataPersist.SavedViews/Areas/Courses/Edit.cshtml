@@ -1,0 +1,54 @@
+﻿@model DataPersist.SavedViews.Areas.Courses.Edit
+@{
+    var title = Model!.Id == 0 ? "New course" : "Edit course";
+    ViewBag.Title = title;
+}
+
+<form method="post" asp-antiforgery="true">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Referer" />
+
+    <div class="page-box">
+        <div class="page-box-icon"><a href="@Model.Referer"><i class="page-icon icon-book-open"></i></a> Course</div>
+        <div class="page-box-name">@Model.Title</div>
+    </div>
+
+    <div class="tabs">
+        <ul class="nav nav-tabs nav-tabs-related">
+            <li class='nav-item'><a class='nav-link active' href="javascript:void(0)">@title</a></li>
+        </ul>
+    </div>
+
+    <div class="edit-pane">
+        <div class="row edit-pane-row ">
+
+            <div class="col-12 col-md-6">
+               @* <outputSerial value="CourseNumber" label="Course #"></outputSerial>*@
+                <inputTextBox value="Title" label="Course Title" pattern="Record Name"></inputTextBox>
+                <inputTextArea value="Description"></inputTextArea>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <inputDropDown value="DepartmentId" items="Lookup.DepartmentItems" label="Department" pattern="Lookup"></inputDropDown>
+                <inputDropDown value="InstructorId" items="Lookup.InstructorItems" label="Instructor" pattern="Denormalized<br>Foreign Key"></inputDropDown>
+                <inputCurrencyBox value="Fee"></inputCurrencyBox>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <input type="submit" class="btn btn-sm btn-light" value='Save' />&nbsp;&nbsp;
+        <a class="btn btn-sm btn-light" href="@Model.Referer">Cancel</a>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />
+<br />
+
+
+
+

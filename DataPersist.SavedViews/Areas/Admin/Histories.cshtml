@@ -1,0 +1,92 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Histories
+@{
+    ViewBag.Title = "Histories";
+}
+
+<div class="page-box d-flex">
+     <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/histories">History</a>
+    </div>
+     <div class="ml-25 mt-5 mb-10 fst-italic">
+        -- View Record History: for Students, Classes, and Enrollments.
+    </div>
+</div>
+
+<form method="post" asp-antiforgery="true">
+
+    <table class="table table-list table-md mt-20">
+        <tr class="bg-light">
+            <th>Table</th>
+            <th class="width-140">Record Name &nbsp;<a data-bs-toggle="tooltip" data-bs-title="Record Name pattern" href="javascript:void(0);"><img src="~/img/p.png" /></a></th>
+            <th class="width-60">Id &nbsp;<a data-bs-toggle="tooltip" data-bs-title="Polymorphic Association pattern" href="javascript:void(0);"><img src="~/img/p.png" /></a></th>
+            <th class="width-100">Operation</th>
+            <th>Sample</th>
+            <th class="width-140">Modified By</th>
+            <th class="width-140">Modified On</th>
+            <th class="width-140"></th>
+        </tr>
+
+        @if (!Model!.Items.Any())
+        {
+            <tr><td colspan="8" class="no-records">No records to display</td></tr>
+        }
+
+        @foreach (var history in Model.Items)
+        {
+            <tr>
+                <td>@history.What</td>
+                <td>@history.Name</td>
+                <td>@history.WhatId</td>
+                <td style="font-variant:small-caps;font-size:12px;">@history.Operation</td>
+                <td>@history.Content!.Ellipsify(50)</td>
+                <td>@history.User</td>
+                <td>@history.HistoryDate</td>
+                <td>
+                    <a class="view btn btn-xs btn-light" data-id="@history.Id" href="javascript:void(0);">View</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" data-id="@history.Id" data-word="Reverse" data-item="@history.Operation" xdata-url="/@history.Id" href="/admin/histories/reverse">Reverse</a>
+                </td>
+            </tr>
+            <tr id="detail-@(history.Id)" style="display:none;">
+                <td colspan="6" style="width: min-content;word-break: break-all;overflow-wrap: break-word;">
+                    <strong>Transaction:</strong> @history.Txn<br />
+                    <strong>Content:</strong>
+                    <div class="py-10 px-10">@history.Content</div>
+                </td>
+            </tr>
+        }
+    </table>
+
+</form>
+
+<form>
+    <input asp-for="Page" type="hidden" />
+    <partial name="_Pager" />
+</form>
+
+<br />
+<br />
+<br />
+
+@section scripts
+{
+<script>
+    $(function () {
+        $(".view").on('click', function () {
+            var id = $(this).data('id');
+            $("#detail-" + id).toggle();
+        })
+
+        $(".reverse").on('click', function () {
+            var operation = $(this).data('operation');
+            if (confirm("Reverse this " + operation + "?")){
+
+                var form = $(this).closest("form");
+                var url = $(this).data('url');
+                form.attr('action', url).submit();
+            }
+        })
+    });
+</script>
+}

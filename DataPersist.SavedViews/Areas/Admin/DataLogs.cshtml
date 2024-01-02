@@ -1,0 +1,79 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.DataLogs
+@{
+    ViewBag.Title = "Data Logs";
+}
+
+<div class="page-box d-flex">
+     <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/datalogs">Data logs</a>
+    </div>
+     <div class="ml-25 mt-5 mb-10 fst-italic">
+        -- Data logs for Courses in Instructors only.
+    </div>
+</div>
+
+
+<form method="post" asp-antiforgery="true">
+
+    <table class="table table-list table-md mt-20">
+        <tr class="bg-light">
+            <th class="width-90">Table</th>
+            <th class="width-150">Record Name</th>
+            <th class="width-120">Column</th>
+            <th>Old Value</th>
+            <th>New Value</th>
+            <th class="width-150">By User</th>
+            <th class="width-110">Log Date</th>
+            <th class="width-70"></th>
+        </tr>
+
+        @if (Model!.Items.Count == 0)
+        {
+            <tr><td colspan="8" class="no-records">No records to display</td></tr>
+        }
+
+        @foreach (var datalog in Model.Items)
+        {
+            <tr>
+                <td>@datalog.What</td>
+                <td>@datalog.Name</td>
+                <td>@datalog.Column</td>
+                <td>@datalog.OldValue?.Replace("'","")</td>
+                <td>@datalog.NewValue?.Replace("'","")</td>
+                <td>@datalog.User</td>
+                <td>@datalog.LogDate</td>
+                <td><a class="undo btn btn-xs btn-light" data-url="/admin/datalogs/undo/@datalog.Id" href="javascript:void(0)">Undo</a></td>
+            </tr>
+
+        }
+    </table>
+</form>
+
+<form>
+    <input asp-for="Page" type="hidden" />
+    <partial name="_Pager" />
+</form>
+
+<br />
+<br />
+<br />
+<br />
+
+@section scripts
+{
+<script>
+    $(function () {
+
+        $(".undo").on('click', function () {
+            if (confirm("Undo this change?")){
+
+               var form = $(this).closest("form");
+                var url = $(this).data('url');
+                form.attr('action', url).submit();
+            }
+        })
+    });
+</script>
+}

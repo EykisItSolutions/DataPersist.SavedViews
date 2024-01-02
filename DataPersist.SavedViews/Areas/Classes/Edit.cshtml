@@ -1,0 +1,46 @@
+﻿@model DataPersist.SavedViews.Areas.Classes.Edit
+@{
+    var title = Model!.Id == 0 ? "New class" : "Edit class";
+    ViewBag.Title = title;
+}
+
+<form method="post" asp-antiforgery="true">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Referer" />
+
+    <div class="page-box">
+        <div class="page-box-icon"><a href="@Model.Referer"><i class="page-icon icon-calendar"></i></a> Class</div>
+        <div class="page-box-name">@Model.ClassNumber</div>
+    </div>
+
+    <div class="tabs">
+        <ul class="nav nav-tabs nav-tabs-related">
+            <li class='nav-item'><a class='nav-link active' href="javascript:void(0)">@title</a></li>
+        </ul>
+    </div>
+
+    <div class="edit-pane">
+        <div class="row edit-pane-row ">
+
+            <div class="col-12 col-md-6">
+                <outputSerial value="ClassNumber" label="Class #" pattern="Record Name"></outputSerial>
+                <inputDropDown value="CourseId" items="Lookup.CourseItems" label="Course" pattern="Denormalized<br>Foreign Key"></inputDropDown>
+                <inputTextBox value="MaxEnrollments" label="Max Students"></inputTextBox>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <inputDateBox value="StartDate" label="Start Date"></inputDateBox>
+                <inputDateBox value="EndDate" label="End Date"></inputDateBox>
+                <inputTextBox value="Location"></inputTextBox>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <input type="submit" class="btn btn-sm btn-light" value='Save' />&nbsp;&nbsp;
+        <a class="btn btn-sm btn-light" href="@Model.Referer">Cancel</a>
+    </div>
+
+</form>

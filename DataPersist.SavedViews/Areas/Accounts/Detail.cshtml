@@ -1,0 +1,52 @@
+﻿@model DataPersist.SavedViews.Areas.Accounts.Detail
+@{
+    ViewBag.Title = "My Account";
+}
+
+<div class="page-box d-flex">
+    <div class="">
+        <div class="page-box-icon"><i class="page-icon icon-settings"></i> My Account</div>
+        <div class="page-box-name">@CurrentUser.FirstName @CurrentUser.LastName</div>
+    </div>
+    <div class="ms-auto">
+        <div class="page-box-buttons">
+            <a class="btn btn-light btn-sm" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="Not implemented">Edit</a>&nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="tabs">
+    <ul class="nav nav-tabs nav-tabs-related">
+        <li class='nav-item'><a class="nav-link active" data-bs-toggle="tab" href="#details">Details</a></li>
+    </ul>
+</div>
+
+<div class="tab-pane active" id="details">
+    <div class="tab-pane-row row">
+
+        <div class="col-12 col-md-6">
+            <outputField value="FirstName" label="First Name"></outputField>
+            <outputField value="LastName" label="Last Name"></outputField>
+            <outputField value="Email"></outputField>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="row">
+                <label class="col-sm-3 col-form-label">Password</label>
+                <div class="col-sm-7 d-flex">
+                    <div class="pt-6 pr-30 font-18">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
+                    <div class="pt-3"><a class="btn btn-sm btn-light" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Not implemented" >Change</a></div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 col-form-label">Image <partial name="_Pattern" model='new string("Media Storage")' /></label>
+                <div class="col-sm-7 d-flex">
+                    <div class="pt-6 pr-30">
+                        <img src="@Model!.Image" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

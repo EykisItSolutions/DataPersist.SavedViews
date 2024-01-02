@@ -1,0 +1,769 @@
+﻿@{
+    ViewBag.Title = "Patterns";
+}
+
+<div class="page-box">
+    <div>
+        <a class="no-underline" href="/patterns"><i class="page-icon icon-puzzle"></i>&nbsp; Patterns</a>
+    </div>
+</div>
+
+<div class="d-flex pt-20 pb-20 font-13">
+    <div>
+        The star ratings on the left indicate the relevance of the<br />
+        patterns in modern-day database design and development.
+    </div>
+    <div class="ms-auto text-end">
+        Click on the <img src="/img/go.png" /> buttons to view where patterns are <br />
+        used, either in the database or in the application.
+    </div>
+</div>
+
+<style>
+
+    .pattern-heading {
+        font-size:18px;
+        border-bottom: 2px solid firebrick !important;
+        padding: 4px;
+    }
+
+    .home-table-patterns th {
+        font-weight: normal !important;
+        font-size:13px;
+        text-transform:uppercase;
+    }
+</style>
+
+<table class="table home-table-patterns">
+    <tr>
+        <td colspan="4" class="pattern-heading">Essential Data Model Patterns</td>
+    </tr>
+    <tr>
+        <th>Pattern</th>
+        <th style="width:34%;">Description</th>
+        <th style="width:26%;">Where in Database</th>
+        <th style="width:26%;">Where in Application</th>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Ultra-Clean Architecture<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A modern database design and architecture approach that creates simple, easy-to-use, and highly effective data models (schema). Ultra-Clean architecture is based on proven data patterns and best practices. They make working with SQL a joy.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The University database is designed with ultra-clean architecture principles.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Beautiful ER<br />Diagram<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A beautiful Entity Relationship diagram is one that is well organized, visually attractive, and clearly conveys the structure and intent of the data model.  It brings immediate clarity to the data model to anyone using it.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The ER diagram for the Unitversity database is organized in three separate functional areas: Application, Admin, and Views.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Primary Key<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">An identity primary key of type int. The name is always Id.  Each table must have this primary key. Primary keys are not displayed on the UI.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            All tables in the database.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" /> The application does not display primary key values on the UI.<br />
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Foreign Key<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A foreign key of type int that references a parent table. The name is the parent table name with an Id suffix, such as, DepartmentId, CourseId. Foreign key values are not displayed on the UI.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            CountryId in Student, StudentId &amp; ClassId in Enrollment, EnrollmentId in Quiz, and others.
+        </td>
+        <td class="indent">
+            <a href="/enrollments/edit/11"><img src="/img/go.png" /></a> Foreign key values are not displayed. Dropdown controls allow users to select a parent record.
+            Example: Student dropdown on Enrollment edit page.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Data Integrity<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Ensures data correctness through a combination of Entity integrity, Domain integrity, Referential integrity, and Business integrity.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Entity integrity, Domain integrity, and Referential integrity are all implemented in the database.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Business integrity is implemented in the application code in the form of validation and business rules.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Relationship Types<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">All relationships between tables fall into just three categories: 1-1, 1-M, and M-M, that is, one-to-one, one-to-many, and many-to-many.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Examples: User-Preference is 1-1; Course-Instructor is 1-M; and Student-Enrollment-Class is M-M.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Data Types<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Limit the data types to int, bit, char, varchar, decimal, date, time, datetime2, datetimeoffset, binary, and varbinary. Use special types only when needed (for example spatial data types).</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The University database uses a minimal set of data types.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Note: the suggested data types are easily mapped to .NET data types.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Data anti-patterns<br />
+            <img style="padding-top:5px;" src="~/img/star-3.jpg" title="Medium relevance" />
+        </td>
+        <td class="pad">Avoid using stored procedures, triggers, views, user-defined functions, and cursors.  Use only when absolutely necessary. </td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The University database only has tables and indexes. 
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Indexing<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Ensure that all queries are properly covered by indexes. Also, be sure to add indexes to foreign keys and unique indexes to candidate keys. Analyze all queries and review query execution plans.  The importance of indexing cannot be overstated.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            All tables in the University database are carefully indexed.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Application performance greatly benefits from proper indexing.
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom:none;" class="fst-italic">
+            Data Model smells<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad" style="border-bottom:none;">Correct the data model when you identify Value smells, Column smells, Table smells, Relationship smells, Transaction Smells, or Database smells. Data model smells are mostly normalization violations.</td>
+        <td class="indent pad" style="border-bottom:none;">
+            <a onclick="DataPersist.Utils.Modal.setTab(3); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The Univerity database does contain a Value Smell, i.e. the Parms column in the View table. This one is deemed acceptable.
+        </td>
+        <td class="indent" style="border-bottom:none;">
+            <img src="/img/gog.png" />
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="pattern-heading pt-40">Advanced Data Model Patterns</td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Record Name<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A character or numeric column that is a human-readable identifier for a record.  Each table must have one. Just like primary keys, record names can be 'natural' or 'surrogate'.  Record names often appear as links on the user interface.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Examples of 'natural' record names: Name in Country, FirstName &amp; LastName in Student.
+            Examples of 'surrogate'' record names: EnrollmentNumber in Enrollment, ClassNumber in Class, etc.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            Record names frequently appear as links on lists of records, such as, the student names on a list students, or a class number on a list of classes.
+        </td>
+    </tr>
+     <tr>
+       <td class="fst-italic">
+            Denormalized<br>Foreign Key<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Denormalized foreign key columns are always paired with a foreign key. The denormalized value is the record name of the table referenced by the foreign key. Denormalized columns greatly simplify queries and increase performance.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Student in Enrollment (paired with StudentId), Course in Class (paired with CourseId), Instructor in Course (paired with InstructorId), etc.
+        </td>
+        <td class="indent">
+            <a href="/enrollments"><img src="/img/go.png" /></a>
+            Denormalization can greatly simplify list page queries and sorting of these lists. For example: the Enrollment list page (sort by Student or Title is very easy).
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Rollup<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A column in a parent table that maintains an aggregate value for the child records, such as, counts, averages, sums, etc.  Rollups simplify queries and increase performance.  A powerful and greatly under-utilized pattern.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            TotalEnrollments in Student, AvgGrade in Enrollment, TotalEnrollments in Class, TotalCourses in Instructor.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            Any column with a summary statistic on a list page. Example: # Enrollments on the Students list page.
+        </td>
+    </tr>
+   
+    <tr>
+       <td class="fst-italic">
+            External ID<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A column that maintains the external identifier for imported records.  External IDs are used to avoid duplicates and they also allow subsequent record refreshes.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            ExternalID on Instructor table.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Data import is not implemented in the University application.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Snapshot<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">An immutable copy of a value from elsewhere. Snapshots represent a time-stamped record of the state of the system at the time of the transaction. Commonly used in commercial transactions in which pricing and product details are copied and stored as snapshots in time. Currency exchange rates is another example.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Title, Fee, and NumDays in the Enrollment table. These are snapshot values of the Course at the time of enrollment.
+        </td>
+        <td class="indent">
+            <a href="/enrollments"><img src="/img/go.png" /></a>
+            Title and Fee columns on the enrollment list page.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Journaling<br />
+            <img style="padding-top:5px;" src="~/img/star-4.jpg" title="Medium high relevance" />
+        </td>
+        <td class="pad">A system of immutable rows that record transactions (usually accounting/financial transactions).  The rows are immutable and never change. Mistakes are corrected by adding reverse transactions.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not implemented in the database.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Not implemented in the application.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Enumeration: Bit<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A boolean column with a limited set of possible values (i.e. a limited domain).  The bit data type limits the possible values to True and False (and possibly NULL).</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            IsFulltime and IsDeleted in the Instructor list.
+        </td>
+        <td class="indent">
+            <a href="/instructors"><img src="/img/go.png" /></a>
+            The Fulltime column on the Instructors list.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Enumeration: Check Constraint<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A column with a limited set of possible values (i.e. a limited domain).  A Check constraint is a column constraint that limits the entries to a specific set of allowable values.  Check constraints are effective and easy to work with.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Gender in the Student table.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            The Gender column in the Student list. Allowable values are Male and Female.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Enumeration: Lookup<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A column with a limited set of possible values (i.e. a limited domain).  A lookup table with foreign keys is an efficient way to ensure a limited set of values.  Lookup tables require JOINs or they can be cached and joined in code.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Country and Department are both lookup tables.
+        </td>
+        <td class="indent">
+            <a href="/courses/edit/12"><img src="/img/go.png" /></a>
+            The Country dropdown on the Student edit page and Department dropdown on the Course edit page.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Alias<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A short, unique name for users of the application.  They are useful for reports where full names take up to much space.  A common alias has the first character of the first name and 6 characters of the last name.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Alias in the Student and the Instructor tables.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            The Alias column in the Student listing. Reporting is not part of the University application.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Name-Value<br />
+            <img style="padding-top:5px;" src="~/img/star-3.jpg" title="Medium relevance" />
+        </td>
+        <td class="pad">A pair of Name and Value columns that are used to store configuration settings, user preferences, and other unstructured data.  It's also a way to store unstructured data in a single wide column.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The Setting table has a Name-Value column pair.
+        </td>
+        <td class="indent">
+            <a href="/admin/settings"><img src="/img/go.png" /></a>
+            Application settings entered in the Admin area in a name-value format.
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom:none;" class="fst-italic">
+            Polymorphic Association <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad"  style="border-bottom:none;">A foreign key that references multiple tables instead of just one.  It is called polymorphic because it takes on 'multiple forms', i.e. multiple tables.  Polymorphic association is a useful pattern, but be aware that referential integrity cannot be enforced on polymorphic keys. Common names for these columns are WhatId and WhoId.</td>
+        <td class="indent pad"  style="border-bottom:none;">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            WhatId in the History table and WhatId in DataLog.
+        </td>
+        <td class="indent"  style="border-bottom:none;">
+            <a href="/admin/histories"><img src="/img/go.png" /></a>
+            The History Undo facility uses the WhatId foreign key (named Id on the page) to determine the exact record to recover.
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="4" class="pattern-heading pt-40">Data Persistence Patterns</td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Active Record <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">An object that represents a single row in a database table.  The Ultra-Clean model uses Active Record objects as its domain model.  It is a simple but highly useful pattern.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used throughout the code. All domain objects (Student, Enrollment, Course, User, etc.) are Active Records.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Repository<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A single point of entry for all database interactions for a given domain object. Repositories facilitate ORM (Object Relational Mapping) in which database records are easily mapped to C# domain objects and vice versa.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Widely used. Nearly all data access goes via DbSet repositories on the UniversityContext object. Their names are the plural of their corresponding domain objects. For example db.Students is the repository for Student domain objects.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Data Mapper <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Moves data from one representation to another, usually between domain objects and MVC view models (action models in our code).</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used throughout the code using the AutoMapper tool.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Data Cache <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Data Caching is in-memory data storage -- as opposed to data on disc. Data caching accelerates access.  Caching is an under-utilized data pattern in many applications.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used throughout the code. Look for the _cache injected service in the action models.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Identity Map<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">An in-memory dictionary of objects indexed by their primary keys. Use Identity Map for very fast access to specific objects.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used in the Cache in which table data is stored in Dictionary format. Examples include Courses, Users, and Countries.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Lazy Load<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Loads data at the last possible moment when absolutely necessary.  It's used as a resource (i.e. memory) conservation technique.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used in the Cache in which data is loaded only when first requested. After that it will remain cached for a specified amount of time.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Eager Load<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">This pattern anticipates future use of resources and loads them in advance. Use it during application startup to prevent users from waiting for data loading.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used in Program.cs when calling AddAutoMapper. This loads all AutoMapper profiles before the application starts. 
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Unit of Work<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Coordinates a group of SQL commands as a single 'unit of work'.  Used to manage transactions in the database.</td>
+        <td class="indent pad">
+            <img src="/img/gog.png" />
+            Not applicable. This is an application pattern.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Used throughout the code. Look for BeginTransaction or BeginTransactionAsync.
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom:none;" class="fst-italic">
+            Media Storage<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad" style="border-bottom:none;">Store media files (images, videos, documents) outside the database. When performing a database backup remember to copy the media files with it.</td>
+        <td class="indent pad" style="border-bottom:none;">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The Image column in the User table. The database does not store the actual image; only the file name of the image. 
+        </td>
+        <td class="indent" style="border-bottom:none;">
+            <a href="/account"><img src="/img/go.png" /></a>
+            Each user has a profile image stored in a file folder; not in the database. The image is visible on the user account page, and on the account drop down (on the top right).
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="pattern-heading pt-40">Data Experience Patterns</td>
+    </tr>
+
+    <tr>
+        <td class="fst-italic">
+            Data Experience<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A group of CRUD-based user interface patterns that are valuable when working with data from a database. DX patterns are relevant to data professionals because the design of the UI directly affects data access and ultimately the data model with indexing, support columns, support tables, etc.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Any column or table that contributes to a better user experience.
+            Examples: the View tables, History table, the Record Name columns, the Rollup columns,  indexes, etc.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            The UI is designed around a data experience with <i>list</i>, <i>detail</i>, and <i>edit</i> pages.
+            The Recycle Bin (Soft delete pattern) and Saved Views are other examples of data experiences.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Related List <br />
+            <img style="padding-top:5px;" src="~/img/star-4.jpg" title="Mediumn high relevance" />
+        </td>
+        <td class="pad">A Data Experience pattern which adds a related list to a detail page. A related list is a group of child records for a given parent record (it's a 1-M relationship). A detail page can have 0 or many related lists.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Related lists are child records of a parent record. Example: Instructor parent with Course children.
+        </td>
+        <td class="indent">
+            <a href="/instructor/8"><img src="/img/go.png" /></a>
+            Related lists appear on <i>detail</i> pages.
+            Examples: Course detail has a list of related classes, i.e. the scheduled classes.
+            Instructor detail has a list of related courses, i.e. the courses they teach.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Search <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Search should be simple and natural. Any underlying complexity must be hidden from the user.  Focus on the most-requested search options.  Consider full-text search for the entire application, possibly using Lucene.NET.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Indexing is critical to search (although Lucene.NET does its own indexing). 
+        </td>
+        <td class="indent">
+            <a href="/search"><img src="/img/go.png" /></a>
+            The search page performs a full text search. Lucene.NET is continually updated with new data changes.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Filter<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Keeps the Filter options on the UI simple and manageable. Focus on the most requested criteria. Ensure that all filter queries are covered by indexes.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            To avoid table scans, each filter option presented to the user should be covered by an index.
+        </td>
+        <td class="indent">
+            <a href="/enrollments"><img src="/img/go.png" /></a>
+            All list pages, except Students have a filter dropdown. For example, Enrollments, Courses, and Instructors.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Sort<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Single column sorts (by clicking on the table headings) are sufficient for most applications. However, reporting often requires two or more sort columns. Ensure that all sorts are covered by indexes.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            To avoid table scans, each sort option must be covered by an index.
+        </td>
+        <td class="indent">
+            <a href="/enrollments"><img src="/img/go.png" /></a>
+            All list pages, have clickable headings that toggle the column sort order from ascending to descending.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Pagination<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Pagination displays a manageable subset of records that fit onto a single page. </td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            No special data model considerations. Pagination is handled entirely by SQL.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            Pagination is supported on all list pages, such as Students, Courses, etc.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Saved View<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">
+            A set of custom filter and sort conditions with a name. This feature allows users to personalize their lists of records. Saved Views simplify the user experience by uncluttering the page.  Saved Views are a under-utilized pattern in Enterprise type applications.
+        </td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(3); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            View, ViewFilter, and ViewSort are tables supporting Saved Views. This is an example in which the database is designed with the Data Experience in mind.
+        </td>
+        <td class="indent">
+            <a href="/students"><img src="/img/go.png" /></a>
+            The Student list page uses Saved Views.
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom:none;" class="fst-italic">
+            Modularity<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad" style="border-bottom:none;">Modules are the isolated functional areas of an application. 
+            Modularity crosses the entire application stack, UI, middle tier, and the database. 
+            Modules have high-cohesion and low coupling.</td>
+        <td class="indent pad" style="border-bottom:none;">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            Modules are centered around a 'main entity', such as, Student, Enrollment, and Course.
+        </td>
+        <td class="indent" style="border-bottom:none;">
+            <a href="/students"><img src="/img/go.png" /></a>
+            The main menu items (and related pages) represent the 5 main modules: Students, Enrollments, Classes, Courses, and Instructor.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="pattern-heading pt-40">Auditing and Archiving Patterns</td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Auditing<br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">Auditing allows the application to monitor which user last changed a record and when. It requires 4 standard columns on each table: CreateOn, CreatedBy, ChangedOn, and ChangedBy.  Use these columns for auditing purposes only: not for business purposes.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            All tables in the University database have 4 audit columns.
+        </td>
+        <td class="indent">
+            <img src="/img/gog.png" />
+            Audit columns don't leak into the UI, that is, they never appear in the user interface.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Error Logging <br />
+            <img style="padding-top:5px;" src="~/img/star-5.jpg" title="High relevance" />
+        </td>
+        <td class="pad">A database facility to keep track of application errors. Useful to quickly identify and locate problems in a production environment.  Include Error logging in all your applications.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The Error table.
+        </td>
+        <td class="indent">
+            <a href="/admin/errors"><img src="/img/go.png" /></a>
+            The Errors page under Admin displays all application errors.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Activity Logging<br />
+            <img style="padding-top:5px;" src="~/img/star-3.jpg" title="Medium relevance" />
+        </td>
+        <td class="pad">A facility to keep track of user activity, including account activation, login and logout attempts, configuration changes, profile changes and password resets. Useful for monitoring and managing user activity.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The ActivityLog table.
+        </td>
+        <td class="indent">
+            <a href="/admin/activities"><img src="/img/go.png" /></a>
+            The Activities page under the Admin area displays user activity.
+        </td>
+    </tr>
+    <tr>
+        <td class="fst-italic">
+            Data Logging<br />
+            <img style="padding-top:5px;" src="~/img/star-3.jpg" title="Medium relevance" />
+        </td>
+        <td class="pad">A facility that keeps track of all data changes made by UPDATE statements. The changes are logged one column at the time, ideally with before and after values.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The DataLog table.
+        </td>
+        <td class="indent">
+            <a href="/admin/datalogs"><img src="/img/go.png" /></a>
+            Data logging is implemented for Course and Instructor changes. The logs are displayed on the DataLog page under the Admin area.
+        </td>
+    </tr>
+    <tr>
+       <td class="fst-italic">
+            Soft Delete<br />
+            <img style="padding-top:5px;" src="~/img/star-4.jpg" title="Medium high relevance" />
+        </td>
+        <td class="pad">Soft Delete flags a record as 'deleted' rather than physically deleting it with SQL DELETE.  Soft deleted records allow the application to implement a Recycle bin from where deleted records can be recovered.</td>
+        <td class="indent pad">
+            <a onclick="DataPersist.Utils.Modal.setTab(1); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The DeletedOn, DeletedBy, and IsDeleted columns in the Instructor and Course tables.
+        </td>
+        <td class="indent">
+            <a href="/admin/recyclebin"><img src="/img/go.png" /></a>
+            Soft deletes are implemented in the Instructor and Course modules. Deleted records are visible in the recycle bin under the Admin area where they can be viewed and recovered.
+        </td>
+    </tr>
+    <tr>
+        <td style="border-bottom:none;" class="fst-italic">
+            History<br />
+            <img style="padding-top:5px;" src="~/img/star-4.jpg" title="Medium high relevance" />
+        </td>
+        <td class="pad" style="border-bottom:none;">A facility that keeps track of updated and deleted records. Each time a record changes a complete snapshot is taken and added to a History table.  It gives DBAs or users an 'undo' facility with which any transactio can be undone.</td>
+        <td class="indent pad" style="border-bottom:none;">
+            <a onclick="DataPersist.Utils.Modal.setTab(2); return true;" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target=".datamodel"><img src="/img/go.png" /></a>
+            The History table.
+        </td>
+        <td class="indent" style="border-bottom:none;">
+            <a href="/admin/histories"><img src="/img/go.png" /></a>
+            History has been implemented for Students, Enrollments, and Classes. The history of changes is visible in the History page under the Admin area where the changes can also be undone.
+        </td>
+    </tr>
+
+</table>
+
+<br />
+<br />
+
+@section Scripts
+{
+<script>
+        DataPersist.namespace("Utils").Modal = (function () {
+
+        var start = function () {
+
+        };
+
+        var setTab = function (index) {
+            $("[class^='datamodel-tab']").removeClass('active');
+            $(".datamodel-tab-" + index)[0].click();
+        };
+
+        return { start: start, setTab: setTab };
+
+    })();
+</script>
+}

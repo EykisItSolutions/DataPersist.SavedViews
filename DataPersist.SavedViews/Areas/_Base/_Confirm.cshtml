@@ -1,0 +1,31 @@
+﻿<div id="confirm-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span name="confirm-word">delete</span></h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-8 font-15 pt-10">
+                            Do you want to <span class="text-lowercase" name="confirm-word">delete</span> this <span id="confirm-item">record</span>?
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form id="confirm-form" method="post" asp-antiforgery="true">
+
+                    <input type="hidden" name="id" id="confirm-id" />
+                    <input type="hidden" name="id" id="confirm-return-url" />
+
+                    <button type="button" class="btn btn-sm btn-dark js-submit-confirm"> OK </button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>&nbsp;
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

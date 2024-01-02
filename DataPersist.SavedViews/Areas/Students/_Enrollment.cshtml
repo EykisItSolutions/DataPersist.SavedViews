@@ -1,0 +1,40 @@
+﻿@model DataPersist.SavedViews.Areas.Students._Enrollment
+
+<div class="col-4">
+    <div class="bg-white pt-20 pb-15 my-15">
+        <table class="table table-noline">
+            <tr>
+                <td class="text-end border-0 w-40"><partial name="_Pattern" model='new string("Record Name")' />&nbsp; Enroll #</td>
+                <td class="border-0"><a href="/enrollments/@Model!.Id">@Model.EnrollmentNumber</a></td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Snapshot")' />&nbsp; Title</td>
+                <td>@Model.Course.Ellipsify(23)</td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Snapshot")' />&nbsp; Fee</td>
+                <td>@Model.Fee</td>
+            </tr>
+            <tr>
+                <td class="text-end">Paid</td>
+                <td>@Model.AmountPaid</td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; Avg Grade</td>
+                <td>@Model.AvgGrade</td>
+            </tr>
+            <tr>
+                <td class="text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; # Quizzes</td>
+                <td>@Model.TotalQuizzes</td>
+            </tr>
+        </table>
+        
+        <div class="text-center">
+            <a href="/enrollments/edit/@Model.Id">Edit</a>&nbsp;&nbsp;
+            <a class="js-confirm" href="/enrollments/delete" data-id="@Model.Id" data-word="Delete" related-count="@Model.AvgGrade" related-message='Enrollments with quizzes<br />cannot be deleted.'>Delete</a>
+        </div>
+    </div>
+    
+
+</div>
+

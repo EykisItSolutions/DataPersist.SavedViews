@@ -1,0 +1,79 @@
+﻿@model DataPersist.SavedViews.Areas.Admin.Activity
+@{
+    ViewBag.Title = "Activity Logs";
+}
+<form method="post" asp-antiforgery="true">
+
+    <div class="page-box">
+         <div>
+        <a class="no-underline" href="/admin"><i class="page-icon icon-settings"></i></a>&nbsp; 
+        <a class="hover-underline" href="/admin">Admin</a> &nbsp;/&nbsp;
+        <a class="hover-underline" href="/admin/activity">Activity</a>
+    </div>
+
+        <div class="d-flex p-5 pb-10 mt-25">
+
+            <div class="pt-8 xpl-90">
+                Select
+            </div>
+
+            <div class="pl-20">
+                <select asp-for="Count" asp-items="Filter.ActivityItems" class="form-select  width-180"></select>
+            </div>
+            <div class="pl-10 pt-3 width-100"><button id="delete" type="submit" class="btn btn-sm btn-dark">Submit</button></div>
+
+            <div class="pt-6 pl-20">@Model!.TotalRows Items</div>
+        </div>
+
+    </div>
+
+</form>
+
+<form>
+    <input asp-for="Page" type="hidden" />
+
+    <table class="table table-list table-md mt-30">
+        <tr class="bg-light">
+            <th class="width-140">Date</th>
+            <th>User</th>
+            <th>Activity</th>
+            <th>Result</th>
+            <th>IP</th>
+        </tr>
+
+        @if (!Model!.Items.Any())
+        {
+            <tr><td colspan="5" class="no-records">No records to display</td></tr>
+        }
+
+        @foreach (var activity in Model.Items)
+        {
+            <tr>
+                <td>@activity.LogDate</td>
+                <td>@activity.User</td>
+                <td>@activity.Activity</td>
+                <td>@activity.Result</td>
+                <td>@activity.IpAddress</td>
+            </tr>
+        }
+    </table>
+
+    <partial name="_Pager" />
+
+</form>
+<br />
+<br />
+<br />
+
+@section scripts
+{
+<script>
+
+    $(function () {
+
+        $("#delete").on('click', function () {
+            $(this).closest('form').attr("action", "/admin/activity").submit();
+        });
+    });
+</script>
+}

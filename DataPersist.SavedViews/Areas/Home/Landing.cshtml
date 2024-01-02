@@ -1,0 +1,93 @@
+﻿@model DataPersist.SavedViews.Areas.Home.Landing
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<div class="height-400" style="background:url(/img/campus.jpg); background-size: cover; background-repeat: no-repeat;background-position: center center;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 pt-100">
+                <div class="p-30 bg-dark text-white" style="opacity:0.85">
+                    <div class="font-19 pl-15 pb-5">DataPersist University</div>
+                    <ul>
+                        <li>Schema Patterns</li>
+                        <li>Data Patterns</li>
+                        <li>Sql Patterns</li>
+                        <li>UI Patterns</li>
+                        <li>And More...</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="landing-bar">
+    <div class="container">
+        <div class="landing-bar-text">Harvard University, Massachusetts Hall, Cambridge, MA 02138, US.</div>
+    </div>
+</div>
+<br />
+
+<div class="">
+    <div class="container">
+        @*Leave this here..*@
+        <div class="row">
+
+            <div class="col-12 col-md-4">
+
+                <div class="p-20">
+
+                    <h4>Statistics</h4>
+
+                    <table class="table table-hover table-sm mt-25">
+                        @foreach (var item in @Model!.Items)
+                        {
+                            <tr>
+                                <td class="width-40 pt-8"><i class='@item.Icon'></i></td>
+                                <td class="pt-8">@item.Name</td>
+                                <td class="pt-8 text-center">@item.Count</td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="pt-30 pr-lg-50">
+
+                    <h3> Welcome</h3>
+
+                    <p class="pt-25 font-17">
+                        DataPersist University is a modern Web solution designed for
+                        universities and other educational organizations to help them
+                        manage and maintain students, courses, instructors, enrollments, and other information.
+                        Please login at the top right.
+                        <br />
+                    </p>
+                    <p class="font-17">
+                        This Web application has been created with modern SQL design patterns, 
+                        best practices, and advanced database and datamodel techniques.
+                    </p>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+
+@section Scripts
+    {
+    <script>
+        $(function () {
+            $(".body-content").removeClass("body-content");
+        });
+    </script>
+}

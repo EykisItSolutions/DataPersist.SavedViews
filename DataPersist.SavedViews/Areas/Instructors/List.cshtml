@@ -1,0 +1,163 @@
+﻿@model DataPersist.SavedViews.Areas.Instructors.List
+@{
+    ViewBag.Title = "Instructors";
+}
+
+<form>
+
+    <input asp-for="Page" type="hidden" />
+    <input asp-for="Sort" type="hidden" />
+    <input asp-for="AdvancedFilter" type="hidden" />
+
+    <div class="page-box">
+
+        <div class="d-flex">
+            <div class="page-box-icon"><a href="/instructors"><i class="page-icon icon-briefcase"></i></a> Instructors</div>
+            <div class="ms-auto page-box-new-button-top">
+                <a class="btn btn-sm btn-light" href="/instructors/edit"> New </a>
+            </div>
+            <div class="btn-group filter-buttons" data-bs-toggle="buttons">
+                <button type="button" class='standard-toggle btn btn-sm btn-light @(Model!.AdvancedFilter ? "" : "active" )' title='Standard Filter'><img src="/img/list.svg" width="18" /></button>
+                <button type="button" class='advanced-toggle btn btn-sm btn-light @(Model!.AdvancedFilter ? "active" : "" )' title='Advanced Filter'><img src="/img/filter.svg" width="18" /></button>
+            </div>
+        </div>
+
+        <div id="standard-filter" style='display:@(Model.AdvancedFilter ? "none" : "block")'>
+
+            <div class="d-flex">
+                <div class="page-box-filter">
+                    <select asp-for="Filter" asp-items="Filter.InstructorItems" class="form-select width-240"></select>
+                </div>
+                <div class="pt-20 pl-10"><partial name="_Pattern" model='new string("Filter")' /></div>
+                <div class="page-box-items">@Model.TotalRows &nbsp;Items</div>
+            </div>
+
+        </div>
+
+        <div id="advanced-filter" style='display:@(Model.AdvancedFilter ? "block" : "none")'>
+
+            <div class="row pt-17">
+
+                <div class="col-4">
+                    <div class="row">
+                        <label for="Name" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Record Name")' />&nbsp; Name</label>
+                        <div class="col-sm-8">
+                            <input asp-for="Name" type="text" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4">
+                    <div class="row">
+                        <label for="HireDate" class="col-sm-4 col-form-label text-end">Hire Date</label>
+                        <div class="col-sm-8 ">
+                            <table>
+                                <tr>
+                                    <td style="width:45%"><input asp-for="HireDateFrom" type="text" class="form-control js-date-picker" placeholder='From' /></td>
+                                    <td style="width:10%">&nbsp;&nbsp;-</td>
+                                    <td style="width:45%"><input asp-for="HireDateThru" type="text" class="form-control js-date-picker" placeholder='Thru' /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="page-box-items-advanced">@Model.TotalRows &nbsp;Items</div>
+                </div>
+
+            </div>
+
+            <div class="row mt-10 mb-15">
+
+                <div class="col-4">
+                    <div class="row">
+                        <label for="IsFulltime" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Bit Enumeration")' />&nbsp; Fulltime</label>
+                        <div class="col-sm-8">
+                            <select asp-for="IsFulltime" asp-items="Lookup.FulltimeItems" class="form-select width-120"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="row">
+                        <label for="TotalCourses" class="col-sm-4 col-form-label text-end"><partial name="_Pattern" model='new string("Rollup")' />&nbsp; # Courses</label>
+                        <div class="col-sm-8 ">
+                            <table>
+                                <tr>
+                                    <td style="width:45%"><input asp-for="TotalCoursesFrom" type="text" class="form-control" placeholder='From' /></td>
+                                    <td style="width:10%">&nbsp;&nbsp;-</td>
+                                    <td style="width:45%"><input asp-for="TotalCoursesThru" type="text" class="form-control" placeholder='Thru' /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="pt-5">
+                        <button class="btn btn-dark btn-sm js-filter" type="submit"> Filter </button>&nbsp;
+                        <a href="/instructors?AdvancedFilter=True" class="btn btn-light btn-sm"> Reset </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover table-sm table-list">
+        <tr>
+            <th><partial name="_Pattern" model='new string("Record Name")' />&nbsp; <a sort="LastName">Name</a></th>
+            <th><a sort="Email">Email</a></th>
+            <th><a sort="HireDate">Hire Date</a></th>
+            <th><partial name="_Pattern" model='new string("Bit Enumeration")' />&nbsp; <a sort="IsFulltime">Full Time</a></th>
+            <th><a sort="Salary">Salary</a></th>
+            <th><partial name="_Pattern" model='new string("Rollup")' />&nbsp; <a sort="TotalCourses"># Courses</a></th>
+            <th><partial name="_Pattern" model='new string("Alias")' />&nbsp; <a sort="Alias">Alias</a></th>
+            <th class="width-120 pl-13"><partial name="_Pattern" model='new string("Data Experience")' />&nbsp; Action </th>
+
+
+        </tr>
+
+        @if (Model.Items.Count() == 0)
+        {
+            <tr><td colspan="8" class="no-items">No items to display</td></tr>
+        }
+
+        @foreach (var instructor in Model.Items)
+        {
+            <tr>
+                <td><a class="table-list-link" href="/instructors/@instructor.Id?tab=courses">@instructor.FullName</a></td>
+                <td>@instructor.Email</td>
+                <td>@instructor.HireDate</td>
+                <td>
+                    @if (instructor.IsFulltime)
+                    {
+                        <div class="yes">Yes</div>
+                    }
+                    else
+                    {
+                        <div class="no">No</div>
+                    }
+                </td>
+
+                <td>@instructor.Salary</td>
+                <td><a class="table-list-link" href="/courses?InstructorId=@(instructor.Id)&AdvancedFilter=True">&nbsp;@instructor.TotalCourses</a></td>
+                <td><a class="table-list-link" href="/instructors/@instructor.Id">@instructor.Alias</a></td>
+
+
+                <td class='text-end'>
+                    <a class="btn btn-xs btn-light" href="/instructors/edit/@instructor.Id">Edit</a>&nbsp;
+                    <a class="btn btn-xs btn-light js-confirm" href="/instructors/delete" data-id="@instructor.Id" data-word="Delete" related-count="@instructor.TotalCourses" related-message='Instructors with courses<br />cannot be deleted.'>Delete</a>&nbsp; &nbsp;
+                </td>
+
+            </tr>
+        }
+    </table>
+
+    <partial name="_Pager" />
+
+</form>
+
+<div class="height-60"></div>

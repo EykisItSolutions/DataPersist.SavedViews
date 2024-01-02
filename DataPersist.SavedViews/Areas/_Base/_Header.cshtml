@@ -1,0 +1,80 @@
+﻿@{
+    // Simulate user authentication by looking at which page we are
+
+    var action = ViewContext.RouteData.Values["action"]!.ToString();
+    var isAuthenticated = action is not "Landing";
+}
+
+<div class="main-menu">
+    <div class="">
+        <div class="d-flex">
+            <div class="pt-2 pr-25">
+                <a href="/"><img src="~/img/logo.png" /></a>
+            </div>
+            <div>
+                @if (isAuthenticated)
+                {
+                    <ul class="nav nav-menu">
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Students" ? "active" : "")' href="/students">Students</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Enrollments" ? "active" : "")' href="/enrollments">Enrollments</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Classes" ? "active" : "")' href="/classes">Classes</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Courses" ? "active" : "")' href="/courses">Courses</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Instructors" ? "active" : "")' href="/instructors">Instructors</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Search" ? "active" : "")' href="/search">Search</a></li>
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Admin" ? "active" : "")' href="/admin">Admin</a></li>
+                    </ul>
+                }
+
+            </div>
+
+            <div class="ms-auto pr-10">
+
+                @if (!isAuthenticated)
+                {
+                    <ul class="nav nav-menu" role="tablist">
+                        <li class='nav-item'><a class='nav-link @(ViewBag.Menu == "Login" ? "active" : "")' href="/login">Login</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <div class="ms-auto d-flex pt-3 pr-30">
+
+                        <div data-bs-toggle="tooltip" data-bs-title="Patterns" data-bs-placement="bottom" class='header-icon @(ViewBag.Menu == "Patterns" ? "active" : "")'>
+                            <a class="no-underline" href="/patterns"><i class="icon-puzzle font-18 text-white"></i></a>
+                        </div>
+                        <div class="header-icon" data-bs-toggle="modal" data-bs-target=".datamodel">
+                            <a data-bs-toggle="tooltip" data-bs-title="Data Model" data-bs-placement="bottom"
+                           class="no-underline" href="javascript:void(0);"><i class="icon-map font-18 text-white"></i></a>
+                        </div>
+                        <div class="dropdown">
+                            <a class="avatar-wrapper" data-bs-toggle="dropdown" href="javascript:void(0);">
+                                <div class="avatar">@CurrentUser?.FirstName?.Substring(0, 1)</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-start">
+                                <a class="dropdown-item disabled pl-5" href="/account">
+                                    <div class="d-flex px-10">
+                                        <div class="p-12 pr-10 pl-4">
+                                            <div><img class="avatar-img" src="@CurrentUser?.Image"></div>
+                                        </div>
+                                        <div class="pt-10" style="color:black;">
+                                            <div>@CurrentUser?.FirstName</div>
+                                            <div class="font-12">@CurrentUser?.Email</div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/account">My Account</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
